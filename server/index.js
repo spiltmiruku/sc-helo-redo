@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express'),
       massive = require('massive'),
+    //   session = require('express-session'),
       gradient = require('gradient-string'),
       { SERVER_PORT, SESSION_SECRET, CONNECTION_STRING } = process.env,
       ctrl = require('./controller');
@@ -13,6 +14,10 @@ massive(CONNECTION_STRING)
         app.set('db', database)
         console.log(gradient.morning('DB is up and running'));
     })
+
+app.post('/api/auth/register', ctrl.register);
+app.post('api/auth/login', ctrl.login);
+
 
 const port = SERVER_PORT;
 
