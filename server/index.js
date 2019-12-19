@@ -1,11 +1,19 @@
-const express = require('express');
-
-const ctrl = require('./controller');
+require('dotenv').config();
+const express = require('express'),
+      massive = require('massive'),
+      gradient = require('gradient-string'),
+      { SERVER_PORT, SESSION_SECRET, CONNECTION_STRING } = process.env,
+      ctrl = require('./controller');
 
 app = express();
-
 app.use(express.json());
 
-port = 7654
+massive(CONNECTION_STRING)
+    .then(database => {
+        app.set('db', database)
+        console.log(gradient.morning('DB is up and running'));
+    })
 
-app.listen(port, () => console.log(`Gotta catch them on ${port}`));
+const port = SERVER_PORT;
+
+app.listen(port, () => console.log(gradient.retro(`Gotta catch them all on ${port}`)));
