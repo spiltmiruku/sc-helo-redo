@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import '../../App.css';
 import axios from 'axios';
-
+import {connect} from 'react-redux';
+import {getUser} from '../../redux/reducer';
 
 class Auth extends Component {
     constructor(){
@@ -11,7 +13,7 @@ class Auth extends Component {
         }
     }
     handleInput = event => {
-        console.log(event.target.name);
+        // console.log(event.target.name);
         this.setState({
             [event.target.name]: event.target.value
         });
@@ -22,6 +24,7 @@ class Auth extends Component {
         axios
             .post('/api/auth/register', {username, password})
             .then(res => {
+                // console.log(res.data);
                 this.props.getUser(res.data);
                 this.props.history.push('/dashboard');
             })
@@ -32,8 +35,8 @@ class Auth extends Component {
         const {username, password} = this.state;
         axios
             .post('/api/auth/login', {
-                username: this.state.username, 
-                password: this.state.password
+                username, 
+                password
             })
             .then(res => {
                 this.props.getUser(res.data);
@@ -45,13 +48,19 @@ class Auth extends Component {
     render(){
         return(
             <div>
-                <input name='username'/>
-                <input name='password' type='password'/>
+                <div className='login-box'>
+                <div>
+                <input placeholder='username' name='username'/>
+                <input placeholder='password' name='password' type='password'/>
+                </div>
+                <div>
                 <button onClick={this.handleLogin}>Login</button>
                 <button onClick={this.handleRegister}>Register</button>
+                </div>
+                </div>
             </div>
         )
     }
 }
 
-export default Auth;
+export default connect(null, {getUser})(Auth);

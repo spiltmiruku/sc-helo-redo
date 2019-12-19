@@ -5,7 +5,7 @@ import Nav from "./Components/Nav/Nav";
 import routes from "./routes";
 
 function App(props) {
-  console.log(props)
+  // console.log(props)
   return (
     <div className="App">
       {props.location.pathname === "/" || props.location.pathname === "/register" 
